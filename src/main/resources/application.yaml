@@ -8,5 +8,4 @@ spring:
         chat:
           options:
             model: ${GEMINI_GENAI_MODEL:gemini-3-flash-preview}
-
-
+            thinking-level: LOW

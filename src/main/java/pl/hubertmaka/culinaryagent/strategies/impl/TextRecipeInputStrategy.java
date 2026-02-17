@@ -37,6 +37,8 @@ public class TextRecipeInputStrategy implements RecipeInputStrategy {
      */
     @Override
     public UserMessage createMessage(RecipeDataDto recipeData) {
-        return new UserMessage(recipeData.content());
+        return UserMessage.builder()
+                .text(recipeData.content())
+                .build();
     }
 }
