@@ -9,7 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.test.util.ReflectionTestUtils;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AgentConfigTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChatClient.Builder chatClientBuilder;
+    @Mock
+    private BeanOutputConverter<RecipeSchemaDto> converter;
 
     @InjectMocks
     private  AgentConfig agentConfig;
@@ -54,7 +58,7 @@ class AgentConfigTest {
         // Given
 
         // When
-        var agentModel = agentConfig.recipeExtractorAgent(chatClientBuilder);
+        var agentModel = agentConfig.recipeExtractorAgent(chatClientBuilder, converter);
 
         // Then
         assertNotNull(agentModel);

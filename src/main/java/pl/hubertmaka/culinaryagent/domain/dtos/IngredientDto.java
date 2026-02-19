@@ -1,10 +1,10 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
-import pl.hubertmaka.culinaryagent.domain.enums.Unit;
-
+/**
+ * DTO representing an ingredient.
+ *
+ * @param ingredient the name of the ingredient
+ */
 public record IngredientDto(
-    String name,
-    Integer amount,
-    Unit unit,
-    String originalText
+    String ingredient
 ) { }

@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.FileExtension;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import pl.hubertmaka.culinaryagent.strategies.RecipeInputStrategy;
@@ -46,7 +46,7 @@ public class ImageRecipeInputStrategy implements RecipeInputStrategy {
      * @return a UserMessage representing the image recipe data content
      */
     @Override
-    public UserMessage createMessage(RecipeDataDto recipeData) {
+    public UserMessage createMessage(RecipeDataRequestDto recipeData) {
         log.info("Creating UserMessage for image recipe input...");
         MimeType mimeType = getMimeType(recipeData.fileExtension());
         Resource image = decodeImage(recipeData.content());

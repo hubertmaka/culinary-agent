@@ -7,10 +7,8 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.reactivestreams.Publisher;
-import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.web.reactive.function.client.WebClient;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.Language;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import reactor.core.publisher.Mono;
@@ -76,7 +74,7 @@ class UrlRecipeInputStrategyTest {
     void whenCreateMessage_thenReturnUserMessageWithExtractedContent() {
         // Given
         var url = "https://example.com/recipe";
-        var recipeData = new RecipeDataDto(url, RecipeSource.URL, null, Language.ENGLISH);
+        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.ENGLISH);
         var expectedContent = "Delicious Pasta Ingredients: pasta, tomato sauce, cheese";
         var htmlContent = "<html><head><title>Test Recipe</title></head><body><h1>Delicious Pasta</h1><p>Ingredients: pasta, tomato sauce, cheese</p></body></html>";
         when(webClient.get().uri(anyString()).retrieve().bodyToMono(String.class)).thenReturn(Mono.just(htmlContent));
@@ -94,7 +92,7 @@ class UrlRecipeInputStrategyTest {
     void whenCreateMessage_thenReturnUserMessageWithEmptyContent() {
         // Given
         var url = "https://example.com/empty-recipe";
-        var recipeData = new RecipeDataDto(url, RecipeSource.URL, null, Language.ENGLISH);
+        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.ENGLISH);
         var expectedContent = "";
         var htmlContent = "<html><head><title>Empty Recipe</title></head><body></body></html>";
         when(webClient.get().uri(url).retrieve().bodyToMono(String.class)).thenReturn(Mono.just(htmlContent));

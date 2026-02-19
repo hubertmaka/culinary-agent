@@ -5,10 +5,9 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import pl.hubertmaka.culinaryagent.strategies.RecipeInputStrategy;
 
@@ -52,7 +51,7 @@ public class UrlRecipeInputStrategy implements RecipeInputStrategy {
      * @return a UserMessage representing the extracted text content from the URL
      */
     @Override
-    public UserMessage createMessage(RecipeDataDto recipeData) {
+    public UserMessage createMessage(RecipeDataRequestDto recipeData) {
         return UserMessage.builder()
                 .text(extractContent(recipeData.content()))
                 .build();

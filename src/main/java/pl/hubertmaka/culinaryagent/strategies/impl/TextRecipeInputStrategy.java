@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.stereotype.Component;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import pl.hubertmaka.culinaryagent.strategies.RecipeInputStrategy;
 
@@ -36,7 +36,7 @@ public class TextRecipeInputStrategy implements RecipeInputStrategy {
      * @return a UserMessage representing the recipe data content
      */
     @Override
-    public UserMessage createMessage(RecipeDataDto recipeData) {
+    public UserMessage createMessage(RecipeDataRequestDto recipeData) {
         return UserMessage.builder()
                 .text(recipeData.content())
                 .build();

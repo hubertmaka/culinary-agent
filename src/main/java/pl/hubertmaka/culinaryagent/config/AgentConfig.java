@@ -4,12 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.AdvisorParams;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
 
 /**
- * Configuration class for setting up the ChatClient beans with specific parameters for different agents.
+ * Configuration class for setting up ChatClient beans for the culinary agent application.
  */
 @Configuration
 public class AgentConfig {
@@ -29,10 +31,10 @@ public class AgentConfig {
      * @return a configured ChatClient instance for recipe extraction
      */
     @Bean
-    public ChatClient recipeExtractorAgent(ChatClient.Builder builder) {
+    public ChatClient recipeExtractorAgent(ChatClient.Builder builder, BeanOutputConverter<RecipeSchemaDto> converter) {
         log.info("Creating chat client for extractor agent");
         return builder
-                .defaultSystem(recipeExtractorAgentPersonality)
+                .defaultSystem(recipeExtractorAgentPersonality + "\n" + converter.getFormat())
                 .defaultAdvisors(AdvisorParams.ENABLE_NATIVE_STRUCTURED_OUTPUT)
                 .build();
     }
@@ -50,5 +52,16 @@ public class AgentConfig {
         return builder
                 .defaultSystem(recipeChatAgentPersonality)
                 .build();
+    }
+
+    /**
+     * Bean definition for the BeanOutputConverter used to convert output to RecipeSchemaDto format.
+     *
+     * @return a BeanOutputConverter instance configured for RecipeSchemaDto
+     */
+    @Bean
+    public BeanOutputConverter<RecipeSchemaDto> recipeSchemaConverter() {
+        log.info("Creating bean output converter");
+        return new BeanOutputConverter<>(RecipeSchemaDto.class);
     }
 }

@@ -1,7 +1,7 @@
 package pl.hubertmaka.culinaryagent.strategies;
 
 import org.springframework.ai.chat.messages.UserMessage;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 
 /**
@@ -24,5 +24,5 @@ public interface RecipeInputStrategy {
      * @param recipeData the data of the recipe to create a message from
      * @return a UserMessage representing the recipe data
      */
-    UserMessage createMessage(RecipeDataDto recipeData);
+    UserMessage createMessage(RecipeDataRequestDto recipeData);
 }

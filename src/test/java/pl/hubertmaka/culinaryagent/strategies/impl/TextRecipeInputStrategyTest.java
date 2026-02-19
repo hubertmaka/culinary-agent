@@ -3,7 +3,7 @@ package pl.hubertmaka.culinaryagent.strategies.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.FileExtension;
 import pl.hubertmaka.culinaryagent.domain.enums.Language;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
@@ -67,7 +67,7 @@ class TextRecipeInputStrategyTest {
     @DisplayName("Test if TextRecipeInputStrategy creates UserMessage with correct content")
     public void whenCreateMessage_thenReturnUserMessageWithContent() {
         // Given
-        var recipeData = new RecipeDataDto(
+        var recipeData = new RecipeDataRequestDto(
                 "Test recipe content",
                 RecipeSource.TEXT,
                 null,
@@ -87,7 +87,7 @@ class TextRecipeInputStrategyTest {
     @DisplayName("Test if TextRecipeInputStrategy creates UserMessage ignores not null fileExtension")
     public void whenCreateMessage_thenReturnUserMessageWithEmptyContent() {
         // Given
-        var recipeData = new RecipeDataDto(
+        var recipeData = new RecipeDataRequestDto(
                 "Test recipe content",
                 RecipeSource.TEXT,
                 FileExtension.PNG,

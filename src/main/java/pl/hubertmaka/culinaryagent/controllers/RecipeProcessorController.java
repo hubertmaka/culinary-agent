@@ -3,13 +3,14 @@ package pl.hubertmaka.culinaryagent.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaResponseDto;
 import pl.hubertmaka.culinaryagent.services.RecipeExtractorService;
 import reactor.core.publisher.Flux;
 
@@ -38,13 +39,13 @@ public class RecipeProcessorController {
      * Endpoint for extracting recipe information from the provided recipe data. It accepts a RecipeDataDto
      * and returns a structured RecipeSchemaDto containing the extracted recipe information.
      *
-     * @param recipeDataDto the data transfer object containing the recipe data to be extracted
+     * @param recipeDataRequestDto the data transfer object containing the recipe data to be extracted
      * @return a ResponseEntity containing the extracted RecipeSchemaDto and an HTTP status of OK
      */
-    @PostMapping("/extract")
-    public ResponseEntity<RecipeSchemaDto> extractRecipe(RecipeDataDto recipeDataDto) {
-        log.info("Received recipe data for extraction: {}", recipeDataDto);
-        RecipeSchemaDto recipeSchema = recipeExtractorService.extract(recipeDataDto);
+    @PostMapping(value = "/extract", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeSchemaResponseDto> extractRecipe(RecipeDataRequestDto recipeDataRequestDto) {
+        log.info("Received recipe data for extraction: {}", recipeDataRequestDto);
+        RecipeSchemaResponseDto recipeSchema = recipeExtractorService.extract(recipeDataRequestDto);
         return new ResponseEntity<>(recipeSchema, HttpStatus.OK);
     }
 
@@ -52,11 +53,11 @@ public class RecipeProcessorController {
      * Endpoint for streaming chat responses related to recipe preparation. It accepts a RecipeSchemaDto and returns a
      * Flux of ServerSentEvent containing RecipeSchemaDto objects, allowing for real-time updates in the client.
      *
-     * @param recipeSchemaDto the data transfer object containing the recipe schema for which to stream chat responses
+     * @param recipeSchemaResponseDto the data transfer object containing the recipe schema for which to stream chat responses
      * @return a Flux of ServerSentEvent containing RecipeSchemaDto objects
      */
-    @PostMapping("/stream")
-    public Flux<ServerSentEvent<RecipeSchemaDto>> streamChatResponse(RecipeSchemaDto recipeSchemaDto) {
+    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ServerSentEvent<RecipeSchemaResponseDto>> streamChatResponse(RecipeSchemaResponseDto recipeSchemaResponseDto) {
         return Flux.empty();
     }
 }

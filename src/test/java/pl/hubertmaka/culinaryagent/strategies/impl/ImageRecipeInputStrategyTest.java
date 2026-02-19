@@ -3,7 +3,7 @@ package pl.hubertmaka.culinaryagent.strategies.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataDto;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.FileExtension;
 import pl.hubertmaka.culinaryagent.domain.enums.Language;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
@@ -71,7 +71,7 @@ class ImageRecipeInputStrategyTest {
         // Given
         byte[] imageBytes = "test image data".getBytes();
         String base64Image = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(imageBytes);
-        var recipeData = new RecipeDataDto(
+        var recipeData = new RecipeDataRequestDto(
                 base64Image,
                 RecipeSource.IMAGE,
                 FileExtension.JPEG,
@@ -95,7 +95,7 @@ class ImageRecipeInputStrategyTest {
         // Given
         byte[] imageBytes = "test image data".getBytes();
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-        var recipeData = new RecipeDataDto(
+        var recipeData = new RecipeDataRequestDto(
                 base64Image,
                 RecipeSource.IMAGE,
                 FileExtension.PNG,
