@@ -9,18 +9,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.test.util.ReflectionTestUtils;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
+import pl.hubertmaka.culinaryagent.mappers.impl.RecipeSchemaMapper;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AgentConfigTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChatClient.Builder chatClientBuilder;
     @Mock
-    private BeanOutputConverter<RecipeSchemaDto> converter;
+    private RecipeSchemaMapper converter;
 
     @InjectMocks
     private  AgentConfig agentConfig;
@@ -56,6 +56,7 @@ class AgentConfigTest {
     @DisplayName("Test if agentModel bean is created for recipe extractor agent")
     void whenAgentModel_thenNotNullForExtractor() {
         // Given
+        when(converter.getFormat()).thenReturn("test-format");
 
         // When
         var agentModel = agentConfig.recipeExtractorAgent(chatClientBuilder, converter);

@@ -1,14 +1,14 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
+import org.springframework.ai.audio.tts.Speech;
+
 /**
  * DTO representing a chunk of the recipe chat response, including both audio and text data, along with metadata.
  *
- * @param audioChunk the audio data chunk as a byte array
- * @param textChunk the corresponding text data chunk
- * @param metadata additional metadata related to the response chunk
+ * @param audioChunk    speech data representing the audio chunk of the response, which can be streamed to the client
+ * @param agentResponse the text response from the chat agent, along with any associated metadata
  */
 public record RecipeChatResponseChunkDto(
-    byte[] audioChunk,
-    String textChunk,
-    MetadataDto metadata
+    Speech audioChunk,
+    ChatAgentResponseDto agentResponse
 ) { }

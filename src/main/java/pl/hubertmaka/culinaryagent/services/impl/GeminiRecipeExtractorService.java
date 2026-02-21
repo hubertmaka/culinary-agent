@@ -7,12 +7,12 @@ import org.springframework.ai.chat.messages.AbstractMessage;
 import org.springframework.ai.chat.metadata.Usage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
-import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
+import pl.hubertmaka.culinaryagent.mappers.Mapper;
 import pl.hubertmaka.culinaryagent.domain.dtos.MetadataDto;
 import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
-import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaDto;
 import pl.hubertmaka.culinaryagent.domain.dtos.RecipeSchemaResponseDto;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import pl.hubertmaka.culinaryagent.exceptions.RecipeExtractionException;
@@ -33,24 +33,19 @@ public class GeminiRecipeExtractorService implements RecipeExtractorService {
     private static final Logger log = LoggerFactory.getLogger(GeminiRecipeExtractorService.class);
     /** The ChatClient used to interact with the Gemini model for recipe extraction. */
     private final ChatClient chatClient;
-    /** The BeanOutputConverter used to convert the chat response into a RecipeSchemaDto format. */
-    private final BeanOutputConverter<RecipeSchemaDto> converter;
+    /** The RecipeSchemaConverter used to convert the raw text response from the ChatClient into a structured RecipeSchemaDto. */
+    private final Mapper<RecipeSchemaDto, String> mapper;
     /** A list of strategies for handling different types of recipe inputs. */
     private final List<RecipeInputStrategy> strategies;
 
-    /**
-     * Constructor for GeminiRecipeExtractorService that initializes the ChatClient.
-     *
-     * @param chatClient the ChatClient to be used for recipe extraction, injected by Spring with the qualifier "recipeExtractorAgent"
-     */
     public GeminiRecipeExtractorService(
             @Qualifier("recipeExtractorAgent") ChatClient chatClient,
-            BeanOutputConverter<RecipeSchemaDto> converter,
+            Mapper<RecipeSchemaDto, String> mapper,
             List<RecipeInputStrategy> strategies
     ) {
         log.info("Creating Gemini recipe extractor service...");
         this.chatClient = chatClient;
-        this.converter = converter;
+        this.mapper = mapper;
         this.strategies = strategies;
     }
 
@@ -148,7 +143,7 @@ public class GeminiRecipeExtractorService implements RecipeExtractorService {
                 .map(ChatResponse::getResult)
                 .map(Generation::getOutput)
                 .map(AbstractMessage::getText)
-                .map(converter::convert)
+                .map(mapper::mapFrom)
                 .map(recipeSchemaDto -> new RecipeSchemaResponseDto(recipeSchemaDto, metadata))
                 .orElseThrow(() -> new RecipeExtractionException("Failed to extract recipe schema from response"));
     }
