@@ -1,6 +1,5 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
-import pl.hubertmaka.culinaryagent.domain.enums.Model;
 
 /**
  * DTO representing metadata information related to token usage and the model used.

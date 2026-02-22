@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.hubertmaka.culinaryagent.domain.dtos.*;
@@ -57,7 +58,7 @@ public class RecipeProcessorController {
      * @return a ResponseEntity containing the extracted RecipeSchemaDto and an HTTP status of OK
      */
     @PostMapping(value = "/extract", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeSchemaResponseDto> extractRecipe(RecipeDataRequestDto recipeDataRequestDto) {
+    public ResponseEntity<RecipeSchemaResponseDto> extractRecipe(@RequestBody RecipeDataRequestDto recipeDataRequestDto) {
         log.info("Received recipe data for extraction: {}", recipeDataRequestDto);
         RecipeSchemaResponseDto recipeSchema = recipeExtractorService.extract(recipeDataRequestDto);
         return new ResponseEntity<>(recipeSchema, HttpStatus.OK);
@@ -71,7 +72,7 @@ public class RecipeProcessorController {
      * @return a Flux of ServerSentEvent containing RecipeSchemaDto objects
      */
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<RecipeChatResponseChunkDto>> streamChatResponse(RecipeChatRequestDto recipeChatRequestDto) {
+    public Flux<ServerSentEvent<RecipeChatResponseChunkDto>> streamChatResponse(@RequestBody RecipeChatRequestDto recipeChatRequestDto) {
         log.info("Received recipe chat response for streaming: {}", recipeChatRequestDto);
         ChatAgentResponseDto agentResponse = recipeChatService.chat(recipeChatRequestDto);
         return textToSpeechService.stream(agentResponse.content(), recipeChatRequestDto.voice())
