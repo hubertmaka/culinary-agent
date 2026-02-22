@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WebClientConfigTest {
+class RestClientConfigTest {
 
-    private WebClientConfig webClientConfig;
+    private RestClientConfig restClientConfig;
 
     @BeforeEach
     void setUp() {
-        webClientConfig = new WebClientConfig();
+        restClientConfig = new RestClientConfig();
     }
 
     @Test
@@ -21,18 +21,18 @@ class WebClientConfigTest {
         // Given
 
         // Then
-        assertNotNull(webClientConfig);
+        assertNotNull(restClientConfig);
     }
 
     @Test
-    @DisplayName("Test if WebClient bean is created")
-    void whenWebClient_thenNotNull() {
+    @DisplayName("Test if RestClient bean is created")
+    void whenRestClient_thenNotNull() {
         // Given
 
         // When
-        var webClient = webClientConfig.webClient();
+        var restClient = restClientConfig.restClient();
 
         // Then
-        assertNotNull(webClient);
+        assertNotNull(restClient);
     }
 }

@@ -24,9 +24,9 @@ public enum Language {
     /**
      * Returns the string representation of the language code.
      *
-     * @return the language code as a string
+     * @return the language name as a string
      */
-    public String getCode() {
+    public String getName() {
         return code;
     }
 }

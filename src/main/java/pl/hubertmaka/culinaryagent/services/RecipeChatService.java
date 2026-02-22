@@ -13,5 +13,5 @@ public interface RecipeChatService {
      * @param recipeChatRequestDto the request data for the recipe chat interaction
      * @return a ChatAgentResponseDto containing the response from the chat agent
      */
-    public ChatAgentResponseDto chat(RecipeChatRequestDto recipeChatRequestDto);
+    ChatAgentResponseDto chat(RecipeChatRequestDto recipeChatRequestDto);
 }

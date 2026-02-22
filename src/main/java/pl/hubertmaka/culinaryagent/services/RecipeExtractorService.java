@@ -16,11 +16,11 @@ public interface RecipeExtractorService {
      * @param recipeDataRequest The data transfer object containing the recipe data to be extracted.
      * @return A RecipeSchemaDto containing the structured recipe information extracted from the input data.
      */
-    public RecipeSchemaResponseDto extract(RecipeDataRequestDto recipeDataRequest);
+    RecipeSchemaResponseDto extract(RecipeDataRequestDto recipeDataRequest);
     /**
      * Retrieves a list of supported recipe sources that this extractor can handle.
      *
      * @return A list of RecipeSource enums representing the supported recipe sources.
      */
-    public List<RecipeSource> getSupportedSources();
+    List<RecipeSource> getSupportedSources();
 }

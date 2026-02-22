@@ -48,7 +48,7 @@ public class ElevenLabsTTSService implements TextToSpeechService {
         log.info("Creating Flux of Recipe Chat Response...");
         TextToSpeechPrompt prompt = new TextToSpeechPrompt(text, createConfiguration(voice));
         return model.stream(prompt)
-            .map(m -> new RecipeChatResponseChunkDto(m.getResult(), null));
+            .map(m -> new RecipeChatResponseChunkDto(m.getResult().getOutput(), null));
     }
 
     /**

@@ -58,6 +58,7 @@ class GeminiRecipeExtractorServiceTest {
     void setUp() {
         geminiRecipeExtractorService = new GeminiRecipeExtractorService(
                 chatClient,
+                "Test extractor personality",
                 mapper,
                 List.of(imageRecipeInputStrategy, textRecipeInputStrategy, urlRecipeInputStrategy)
         );

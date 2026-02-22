@@ -25,6 +25,9 @@ public class AgentConfig {
     /** The prompt content for the agent user instruction, loaded from the classpath resource. */
     @Value("classpath:prompts/agent-user-instruction.md")
     private String agentUserInstruction;
+    /** The prompt content for the extractor user instruction, loaded from the classpath resource. */
+    @Value("classpath:prompts/extractor-user-instruction.md")
+    private String extractorUserInstruction;
 
     /**
      * Bean definition for the ChatClient used in recipe extraction interactions.
@@ -69,4 +72,14 @@ public class AgentConfig {
         return agentUserInstruction;
     }
 
+    /**
+     * Bean definition for the extractor user instruction, which provides guidance to users interacting with the recipe extractor agent.
+     *
+     * @return a String containing the extractor user instruction loaded from the classpath resource
+     */
+    @Bean
+    public String extractorUserInstruction() {
+        log.info("Loading extractor user instruction from resource...");
+        return extractorUserInstruction;
+    }
 }

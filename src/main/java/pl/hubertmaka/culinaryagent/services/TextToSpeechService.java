@@ -15,11 +15,11 @@ public interface TextToSpeechService {
      * @param voice The voice to be used for the text-to-speech conversion.
      * @return A Flux stream of RecipeChatResponseChunkDto containing audio chunks.
      */
-    public Flux<RecipeChatResponseChunkDto> stream(String text, Voice voice);
+    Flux<RecipeChatResponseChunkDto> stream(String text, Voice voice);
     /**
      * Retrieves the model identifier for the text-to-speech service.
      *
      * @return A String representing the model identifier.
      */
-    public String getModel();
+    String getModel();
 }

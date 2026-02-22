@@ -1,7 +1,6 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
 import jakarta.validation.constraints.NotNull;
-import org.springframework.ai.audio.tts.Speech;
 
 /**
  * DTO representing a chunk of the recipe chat response, including both audio and text data, along with metadata.
@@ -11,7 +10,7 @@ import org.springframework.ai.audio.tts.Speech;
  */
 public record RecipeChatResponseChunkDto(
     @NotNull
-    Speech audioChunk,
+    byte[] audioChunk,
     @NotNull
     ChatAgentResponseDto agentResponse
 ) { }

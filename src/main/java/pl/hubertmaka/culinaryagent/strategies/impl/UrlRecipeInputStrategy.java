@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 import pl.hubertmaka.culinaryagent.domain.dtos.RecipeDataRequestDto;
 import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
 import pl.hubertmaka.culinaryagent.strategies.RecipeInputStrategy;
@@ -21,16 +21,17 @@ public class UrlRecipeInputStrategy implements RecipeInputStrategy {
     /** Logger for logging information and debugging purposes. */
     private final static Logger log = LoggerFactory.getLogger(UrlRecipeInputStrategy.class);
 
-    /** WebClient instance for making HTTP requests to fetch content from URLs. */
-    private final WebClient webClient;
+    /** The RestClient used for making HTTP requests to fetch content from URLs. */
+    private final RestClient restClient;
 
     /**
-     * Constructor for UrlRecipeInputStrategy that initializes the WebClient with a default user agent header.
+     * Constructor for UrlRecipeInputStrategy that initializes the RestClient.
      *
-     * @param webClient the WebClient to be used for fetching content from URLs, injected by Spring
+     * @param restClient the RestClient to be used for making HTTP requests, injected by Spring
      */
-    public UrlRecipeInputStrategy(WebClient webClient) {
-        this.webClient = webClient;
+    public UrlRecipeInputStrategy(RestClient restClient) {
+        log.info("Creating URL recipe input strategy...");
+        this.restClient = restClient;
     }
 
     /**
@@ -64,12 +65,11 @@ public class UrlRecipeInputStrategy implements RecipeInputStrategy {
      * @return a String containing the extracted text content from the URL
      */
     protected String extractContent(String url) {
-        return webClient.get()
+        String htmlContent = restClient.get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .map(this::extractTextFromHtml)
-                .block();
+                .body(String.class);
+        return extractTextFromHtml(htmlContent);
     }
 
     /**

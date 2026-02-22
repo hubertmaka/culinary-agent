@@ -21,6 +21,7 @@ import pl.hubertmaka.culinaryagent.services.RecipeExtractorService;
 import pl.hubertmaka.culinaryagent.strategies.RecipeInputStrategy;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,14 +38,18 @@ public class GeminiRecipeExtractorService implements RecipeExtractorService {
     private final Mapper<RecipeSchemaDto, String> mapper;
     /** A list of strategies for handling different types of recipe inputs. */
     private final List<RecipeInputStrategy> strategies;
+    /** The instruction prompt for the recipe extractor agent, loaded from the classpath resource. */
+    private final String instruction;
 
     public GeminiRecipeExtractorService(
             @Qualifier("recipeExtractorAgent") ChatClient chatClient,
+            @Qualifier("extractorUserInstruction") String instruction,
             Mapper<RecipeSchemaDto, String> mapper,
             List<RecipeInputStrategy> strategies
     ) {
         log.info("Creating Gemini recipe extractor service...");
         this.chatClient = chatClient;
+        this.instruction = instruction;
         this.mapper = mapper;
         this.strategies = strategies;
     }
@@ -100,6 +105,10 @@ public class GeminiRecipeExtractorService implements RecipeExtractorService {
     private ChatResponse callAgent(RecipeInputStrategy strategy, RecipeDataRequestDto recipeSchema) {
         log.info("Calling recipe extractor agent...");
         return chatClient.prompt()
+                .user(u -> u
+                        .text(instruction)
+                        .params(Map.of("language", recipeSchema.language().getName()))
+                )
                 .messages(strategy.createMessage(recipeSchema))
                 .call()
                 .chatResponse();

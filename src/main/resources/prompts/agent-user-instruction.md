@@ -1,2 +1,1 @@
-Suggest the next steps for the following recipe based on the current state of the cooking process in {language} language. Recipe:
-{schema}
+Respond exclusively in {language}. Your response must be a single continuous paragraph with no line breaks, no lists, no headings, and no special characters. Write all numbers as words in {language}. Write all units and measurements in full — no abbreviations. The recipe you are assisting with is: {schema}

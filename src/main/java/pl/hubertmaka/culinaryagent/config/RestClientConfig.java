@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
 /**
  * Configuration class for setting up the WebClient bean with a simulated user agent header.
@@ -13,9 +13,9 @@ import org.springframework.web.reactive.function.client.WebClient;
  * that mimics a real browser, which can help in avoiding blocks from servers that restrict non-browser requests.
  */
 @Configuration
-public class WebClientConfig {
+public class RestClientConfig {
     /** Logger for logging information and debugging purposes. */
-    private static final Logger log = LoggerFactory.getLogger(WebClientConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(RestClientConfig.class);
     /** A simulated user agent string to mimic a real browser when making HTTP requests. */
     private final static String SIMULATED_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0";
 
@@ -25,9 +25,9 @@ public class WebClientConfig {
      * @return a configured WebClient instance with a simulated user agent header
      */
     @Bean
-    public WebClient webClient() {
-        log.info("Creating WebClient bean");
-        return WebClient.builder()
+    public RestClient restClient() {
+        log.info("Creating RestClient bean");
+        return RestClient.builder()
                 .defaultHeader(HttpHeaders.USER_AGENT, SIMULATED_USER_AGENT)
                 .build();
     }

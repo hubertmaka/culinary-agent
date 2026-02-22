@@ -1,0 +1,1 @@
+Extract the recipe from the provided source. Output language: **{language}**. All text in every field — including the `content` markdown, ingredient names, step descriptions, and notes — must be written exclusively in {language}. Do not use any other language anywhere in the response.
