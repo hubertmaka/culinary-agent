@@ -75,7 +75,7 @@ class ImageRecipeInputStrategyTest {
                 base64Image,
                 RecipeSource.IMAGE,
                 FileExtension.JPEG,
-                Language.ENGLISH
+                Language.EN_US
         );
 
         // When
@@ -99,7 +99,7 @@ class ImageRecipeInputStrategyTest {
                 base64Image,
                 RecipeSource.IMAGE,
                 FileExtension.PNG,
-                Language.ENGLISH
+                Language.EN_US
         );
 
         // When

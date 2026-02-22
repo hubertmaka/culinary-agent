@@ -1,5 +1,6 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
+import jakarta.validation.constraints.NotNull;
 import pl.hubertmaka.culinaryagent.domain.enums.Language;
 import pl.hubertmaka.culinaryagent.domain.enums.Voice;
 
@@ -14,8 +15,12 @@ import java.util.List;
  * @param language The language to be used for the chat interaction.
  */
 public record RecipeChatRequestDto(
+    @NotNull
     RecipeSchemaDto schema,
+    @NotNull
     List<MessageDto> messages,
+    @NotNull
     Voice voice,
+    @NotNull
     Language language
 ) { }

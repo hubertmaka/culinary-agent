@@ -61,7 +61,7 @@ class GeminiRecipeChatServiceTest {
         // Given
         var messageDto = new MessageDto(Role.USER, "What can I cook with tomatoes?");
         var schema = new RecipeSchemaDto("Tomato soup", List.of(), 30, List.of());
-        var request = new RecipeChatRequestDto(schema, List.of(messageDto), Voice.VOICE_WOMAN, Language.ENGLISH);
+        var request = new RecipeChatRequestDto(schema, List.of(messageDto), Voice.VOICE_WOMAN, Language.EN_US);
 
         var usage = mock(Usage.class);
         when(usage.getPromptTokens()).thenReturn(10);
@@ -110,7 +110,7 @@ class GeminiRecipeChatServiceTest {
         var userMessageDto = new MessageDto(Role.USER, "How long should I cook the pasta?");
         var assistantMessageDto = new MessageDto(Role.ASSISTANT, "Cook for 10 minutes.");
         var schema = new RecipeSchemaDto("Pasta", List.of(), 20, List.of());
-        var request = new RecipeChatRequestDto(schema, List.of(userMessageDto, assistantMessageDto), Voice.VOICE_WOMAN, Language.ENGLISH);
+        var request = new RecipeChatRequestDto(schema, List.of(userMessageDto, assistantMessageDto), Voice.VOICE_WOMAN, Language.EN_US);
 
         var usage = mock(Usage.class);
         when(usage.getPromptTokens()).thenReturn(5);
@@ -151,7 +151,7 @@ class GeminiRecipeChatServiceTest {
     void whenChatWithEmptyHistory_thenReturnResponse() {
         // Given
         var schema = new RecipeSchemaDto("Salad", List.of(), 10, List.of());
-        var request = new RecipeChatRequestDto(schema, List.of(), Voice.VOICE_WOMAN, Language.POLISH);
+        var request = new RecipeChatRequestDto(schema, List.of(), Voice.VOICE_WOMAN, Language.PL);
 
         var usage = mock(Usage.class);
         when(usage.getPromptTokens()).thenReturn(3);
@@ -192,7 +192,7 @@ class GeminiRecipeChatServiceTest {
     void whenChatResponseIsNull_thenThrowRecipeChatException() {
         // Given
         var schema = new RecipeSchemaDto("Soup", List.of(), 15, List.of());
-        var request = new RecipeChatRequestDto(schema, List.of(), Voice.VOICE_WOMAN, Language.ENGLISH);
+        var request = new RecipeChatRequestDto(schema, List.of(), Voice.VOICE_WOMAN, Language.EN_US);
 
         when(chatClient.prompt()
                 .user(any(Consumer.class))

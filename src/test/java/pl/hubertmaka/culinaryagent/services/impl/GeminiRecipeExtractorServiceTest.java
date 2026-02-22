@@ -88,7 +88,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract returns a valid RecipeSchemaResponseDto with content and metadata")
     void whenExtract_thenReturnRecipeSchemaResponseDto() {
         // Given
-        var request = new RecipeDataRequestDto("Boil pasta for 10 minutes.", RecipeSource.TEXT, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("Boil pasta for 10 minutes.", RecipeSource.TEXT, FileExtension.JPEG, Language.EN_US);
         var expectedSchema = new RecipeSchemaDto("Pasta", List.of(), 20, List.of());
         var userMessage = new UserMessage("Boil pasta for 10 minutes.");
 
@@ -139,7 +139,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract uses the correct strategy for TEXT source")
     void whenExtractWithTextSource_thenUseTextStrategy() {
         // Given
-        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.EN_US);
         var userMessage = new UserMessage("Some recipe text");
         var expectedSchema = new RecipeSchemaDto("Recipe", List.of(), 15, List.of());
 
@@ -179,7 +179,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract uses the correct strategy for IMAGE source")
     void whenExtractWithImageSource_thenUseImageStrategy() {
         // Given
-        var request = new RecipeDataRequestDto("base64imagedata", RecipeSource.IMAGE, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("base64imagedata", RecipeSource.IMAGE, FileExtension.JPEG, Language.EN_US);
         var userMessage = new UserMessage("base64imagedata");
         var expectedSchema = new RecipeSchemaDto("Image Recipe", List.of(), 30, List.of());
 
@@ -219,7 +219,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract throws UnsupportedSchemaException for unsupported source")
     void whenExtractWithUnsupportedSource_thenThrowUnsupportedSchemaException() {
         // Given
-        var request = new RecipeDataRequestDto("some data", RecipeSource.TEXT, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("some data", RecipeSource.TEXT, FileExtension.JPEG, Language.EN_US);
 
         when(textRecipeInputStrategy.supports(RecipeSource.TEXT)).thenReturn(false);
         when(imageRecipeInputStrategy.supports(RecipeSource.TEXT)).thenReturn(false);
@@ -233,7 +233,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract throws RecipeExtractionException when chat response is null")
     void whenChatResponseIsNull_thenThrowRecipeExtractionException() {
         // Given
-        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.EN_US);
         var userMessage = new UserMessage("Some recipe text");
 
         when(textRecipeInputStrategy.supports(RecipeSource.TEXT)).thenReturn(true);
@@ -253,7 +253,7 @@ class GeminiRecipeExtractorServiceTest {
     @DisplayName("Test if extract throws RecipeExtractionException when converter returns null")
     void whenConverterReturnsNull_thenThrowRecipeExtractionException() {
         // Given
-        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.ENGLISH);
+        var request = new RecipeDataRequestDto("Some recipe text", RecipeSource.TEXT, FileExtension.JPEG, Language.EN_US);
         var userMessage = new UserMessage("Some recipe text");
 
         when(textRecipeInputStrategy.supports(RecipeSource.TEXT)).thenReturn(true);

@@ -74,7 +74,7 @@ class UrlRecipeInputStrategyTest {
     void whenCreateMessage_thenReturnUserMessageWithExtractedContent() {
         // Given
         var url = "https://example.com/recipe";
-        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.ENGLISH);
+        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.EN_US);
         var expectedContent = "Delicious Pasta Ingredients: pasta, tomato sauce, cheese";
         var htmlContent = "<html><head><title>Test Recipe</title></head><body><h1>Delicious Pasta</h1><p>Ingredients: pasta, tomato sauce, cheese</p></body></html>";
         when(webClient.get().uri(anyString()).retrieve().bodyToMono(String.class)).thenReturn(Mono.just(htmlContent));
@@ -92,7 +92,7 @@ class UrlRecipeInputStrategyTest {
     void whenCreateMessage_thenReturnUserMessageWithEmptyContent() {
         // Given
         var url = "https://example.com/empty-recipe";
-        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.ENGLISH);
+        var recipeData = new RecipeDataRequestDto(url, RecipeSource.URL, null, Language.EN_US);
         var expectedContent = "";
         var htmlContent = "<html><head><title>Empty Recipe</title></head><body></body></html>";
         when(webClient.get().uri(url).retrieve().bodyToMono(String.class)).thenReturn(Mono.just(htmlContent));

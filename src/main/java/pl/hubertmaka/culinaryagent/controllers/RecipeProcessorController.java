@@ -1,5 +1,6 @@
 package pl.hubertmaka.culinaryagent.controllers;
 
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,7 @@ public class RecipeProcessorController {
      * @return a ResponseEntity containing the extracted RecipeSchemaDto and an HTTP status of OK
      */
     @PostMapping(value = "/extract", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeSchemaResponseDto> extractRecipe(@RequestBody RecipeDataRequestDto recipeDataRequestDto) {
+    public ResponseEntity<RecipeSchemaResponseDto> extractRecipe(@Valid @RequestBody RecipeDataRequestDto recipeDataRequestDto) {
         log.info("Received recipe data for extraction: {}", recipeDataRequestDto);
         RecipeSchemaResponseDto recipeSchema = recipeExtractorService.extract(recipeDataRequestDto);
         return new ResponseEntity<>(recipeSchema, HttpStatus.OK);
@@ -72,7 +73,7 @@ public class RecipeProcessorController {
      * @return a Flux of ServerSentEvent containing RecipeSchemaDto objects
      */
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<RecipeChatResponseChunkDto>> streamChatResponse(@RequestBody RecipeChatRequestDto recipeChatRequestDto) {
+    public Flux<ServerSentEvent<RecipeChatResponseChunkDto>> streamChatResponse(@Valid @RequestBody RecipeChatRequestDto recipeChatRequestDto) {
         log.info("Received recipe chat response for streaming: {}", recipeChatRequestDto);
         ChatAgentResponseDto agentResponse = recipeChatService.chat(recipeChatRequestDto);
         return textToSpeechService.stream(agentResponse.content(), recipeChatRequestDto.voice())

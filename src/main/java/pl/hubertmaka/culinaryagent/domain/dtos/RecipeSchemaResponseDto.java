@@ -1,5 +1,7 @@
 package pl.hubertmaka.culinaryagent.domain.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * DTO representing the response containing the extracted recipe schema and associated metadata.
  *
@@ -7,6 +9,8 @@ package pl.hubertmaka.culinaryagent.domain.dtos;
  * @param metadata     Metadata about the extraction process, such as source and confidence level.
  */
 public record RecipeSchemaResponseDto(
+    @NotNull
     RecipeSchemaDto recipeSchema,
+    @NotNull
     MetadataDto metadata
 ) { }

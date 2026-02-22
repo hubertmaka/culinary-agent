@@ -71,7 +71,7 @@ class TextRecipeInputStrategyTest {
                 "Test recipe content",
                 RecipeSource.TEXT,
                 null,
-                Language.ENGLISH
+                Language.EN_US
         );
 
         // When
@@ -91,7 +91,7 @@ class TextRecipeInputStrategyTest {
                 "Test recipe content",
                 RecipeSource.TEXT,
                 FileExtension.PNG,
-                Language.ENGLISH
+                Language.EN_US
         );
 
         // When
