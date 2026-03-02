@@ -7,8 +7,7 @@ spring:
         api-key: ${GOOGLE_GENAI_API_KEY}
         chat:
           options:
-            model: ${GEMINI_GENAI_MODEL:gemini-3-flash-preview}
-            thinking-level: LOW
+            model: ${GEMINI_GENAI_MODEL:gemini-2.5-flash-lite}
     model:
       audio:
         speech: elevenlabs

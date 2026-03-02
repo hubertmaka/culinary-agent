@@ -12,12 +12,12 @@ import pl.hubertmaka.culinaryagent.domain.dtos.ChatAgentResponseDto;
 import pl.hubertmaka.culinaryagent.domain.dtos.MessageDto;
 import pl.hubertmaka.culinaryagent.domain.dtos.MetadataDto;
 import pl.hubertmaka.culinaryagent.domain.dtos.RecipeChatRequestDto;
+import pl.hubertmaka.culinaryagent.domain.enums.Role;
 import pl.hubertmaka.culinaryagent.exceptions.RecipeChatException;
 import pl.hubertmaka.culinaryagent.mappers.Mapper;
 import pl.hubertmaka.culinaryagent.services.RecipeChatService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -76,11 +76,9 @@ public class GeminiRecipeChatService implements RecipeChatService {
      */
     private ChatResponse callAgent(RecipeChatRequestDto request) {
         log.info("Calling Gemini recipe chat service...");
+        String newInstruction = instruction.replace("{language}", request.language().getName()).replace("{schema}", request.schema().content());
+        request.messages().addFirst(new MessageDto(Role.USER, newInstruction));
         return chatClient.prompt()
-            .user(u -> u
-                .text(instruction)
-                .params(Map.of("language", request.language(), "schema", request.schema()))
-            )
             .messages(preprocessConversationHistory(request.messages()))
             .call()
             .chatResponse();

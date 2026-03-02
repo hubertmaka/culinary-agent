@@ -12,7 +12,7 @@ import pl.hubertmaka.culinaryagent.domain.enums.RecipeSource;
  *
  * @param content The raw content of the recipe, which can be a URL, image data, or text.
  * @param contentType The type of the content source (e.g., URL, IMAGE, TEXT).
- * @param fileExtension The file extension associated with the content (e.g., .jpg for images).
+ * @param fileExtension The file extension associated with the content (e.g., .jpg for images or null for other).
  * @param language The language of the recipe content.
  */
 public record RecipeDataRequestDto(
@@ -21,7 +21,6 @@ public record RecipeDataRequestDto(
     String content,
     @NotNull
     RecipeSource contentType,
-    @NotNull
     FileExtension fileExtension,
     @NotNull
     Language language

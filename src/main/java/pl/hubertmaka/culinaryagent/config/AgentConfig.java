@@ -7,7 +7,11 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import pl.hubertmaka.culinaryagent.mappers.impl.RecipeSchemaMapper;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Configuration class for setting up ChatClient beans for the culinary agent application.
@@ -18,16 +22,24 @@ public class AgentConfig {
     private static final Logger log = LoggerFactory.getLogger(AgentConfig.class);
     /** The prompt content for the extractor personality, loaded from the classpath resource. */
     @Value("classpath:prompts/recipe-extractor-agent-personality.md")
-    private String recipeExtractorAgentPersonality;
+    private Resource recipeExtractorAgentPersonality;
     /** The prompt content for the chat personality, loaded from the classpath resource. */
     @Value("classpath:prompts/recipe-chat-agent-personality.md")
-    private String recipeChatAgentPersonality;
+    private Resource recipeChatAgentPersonality;
     /** The prompt content for the agent user instruction, loaded from the classpath resource. */
     @Value("classpath:prompts/agent-user-instruction.md")
-    private String agentUserInstruction;
+    private Resource agentUserInstruction;
     /** The prompt content for the extractor user instruction, loaded from the classpath resource. */
     @Value("classpath:prompts/extractor-user-instruction.md")
-    private String extractorUserInstruction;
+    private Resource extractorUserInstruction;
+
+    private String readResource(Resource resource) {
+        try {
+            return resource.getContentAsString(StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to read prompt resource: " + resource.getFilename(), e);
+        }
+    }
 
     /**
      * Bean definition for the ChatClient used in recipe extraction interactions.
@@ -41,7 +53,7 @@ public class AgentConfig {
     public ChatClient recipeExtractorAgent(ChatClient.Builder builder, RecipeSchemaMapper converter) {
         log.info("Creating chat client for extractor agent");
         return builder
-                .defaultSystem(recipeExtractorAgentPersonality + "\n" + converter.getFormat())
+                .defaultSystem(readResource(recipeExtractorAgentPersonality) + "\n" + converter.getFormat())
                 .defaultAdvisors(AdvisorParams.ENABLE_NATIVE_STRUCTURED_OUTPUT)
                 .build();
     }
@@ -57,7 +69,7 @@ public class AgentConfig {
     public ChatClient recipeChatAgent(ChatClient.Builder builder) {
         log.info("Creating chat client for chat agent");
         return builder
-                .defaultSystem(recipeChatAgentPersonality)
+                .defaultSystem(readResource(recipeChatAgentPersonality))
                 .build();
     }
 
@@ -69,7 +81,7 @@ public class AgentConfig {
     @Bean
     public String agentUserInstruction() {
         log.info("Loading agent user instruction from resource...");
-        return agentUserInstruction;
+        return readResource(agentUserInstruction);
     }
 
     /**
@@ -80,6 +92,6 @@ public class AgentConfig {
     @Bean
     public String extractorUserInstruction() {
         log.info("Loading extractor user instruction from resource...");
-        return extractorUserInstruction;
+        return readResource(extractorUserInstruction);
     }
 }

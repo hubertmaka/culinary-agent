@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import pl.hubertmaka.culinaryagent.mappers.impl.RecipeSchemaMapper;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -23,12 +26,18 @@ class AgentConfigTest {
     private RecipeSchemaMapper converter;
 
     @InjectMocks
-    private  AgentConfig agentConfig;
+    private AgentConfig agentConfig;
 
     @BeforeEach
     void setUp() {
-        ReflectionTestUtils.setField(agentConfig, "recipeExtractorAgentPersonality", "Test extractor personality");
-        ReflectionTestUtils.setField(agentConfig, "recipeChatAgentPersonality", "Test chat personality");
+        ReflectionTestUtils.setField(agentConfig, "recipeExtractorAgentPersonality",
+                new ByteArrayResource("Test extractor personality".getBytes(StandardCharsets.UTF_8)));
+        ReflectionTestUtils.setField(agentConfig, "recipeChatAgentPersonality",
+                new ByteArrayResource("Test chat personality".getBytes(StandardCharsets.UTF_8)));
+        ReflectionTestUtils.setField(agentConfig, "agentUserInstruction",
+                new ByteArrayResource("Test agent instruction".getBytes(StandardCharsets.UTF_8)));
+        ReflectionTestUtils.setField(agentConfig, "extractorUserInstruction",
+                new ByteArrayResource("Test extractor instruction".getBytes(StandardCharsets.UTF_8)));
     }
 
     @Test
